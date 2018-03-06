@@ -15,4 +15,10 @@ public class ZbApplicationTests {
 		System.out.println(VerificationCode.getVerificationCode());
 	}
 
+	@Test
+    public void testOne(){
+        System.out.println("1111");
+    }
+
+
 }
