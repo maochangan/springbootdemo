@@ -292,6 +292,7 @@ public class UserController {
 
     /**
      * 信息返回  本地
+     *
      * @param response
      * @param request
      * @return
@@ -310,13 +311,29 @@ public class UserController {
     /**
      * 测试 放回html
      */
-    @RequestMapping(value = "testHtml" , method = RequestMethod.GET)
+    @RequestMapping(value = "testHtml", method = RequestMethod.GET)
     public JsonResult tetsHtml(HttpServletResponse response) throws IOException {
         String result = "<div style=\"margin: 0 auto; background-color: aquamarine; width: 100%; height: 500px;\">\n" +
                 "\t\t\t<div align=\"center\">\n" +
                 "\t\t\t\t<p>支付成功！3秒后回到主页<a href=\"http://www.zgysrc.net\">www.zgysrc.net</a></p>\n" +
                 "\t\t\t</div>\t\t\t\n" +
-                "\t\t</div>";
+                "\t\t</div>" +
+                "<div id=\"timer\"></div>\n" +
+                "<script type=\"text/javascript\" language=\"javascript\">\n" +
+                "var endDate=new Date(2018,02,06,16,17,40);//年月日时分秒，月要减去1\n" +
+                "(function daoJiShi()\n" +
+                "{\n" +
+                " var now=new Date();\n" +
+                " var oft=Math.round((endDate-now)/1000);\n" +
+                " var ofd=parseInt(oft/3600/24);\n" +
+                " var ofh=parseInt((oft%(3600*24))/3600);\n" +
+                " var ofm=parseInt((oft%3600)/60);\n" +
+                " var ofs=oft%60;\n" +
+                " document.getElementById('timer').innerHTML='还有 '+ofd+' 天 ' +ofh+ ' 小时 ' +ofm+ ' 分钟 ' +ofs+ ' 秒';\n" +
+                " if(ofs<0){document.getElementById('timer').innerHTML='倒计时结束！';window.location.href='http://www.zgysrc.net';return;};\n" +
+                " setTimeout('daoJiShi()',1000);\n" +
+                "}());\n" +
+                "</script>";
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
         out.print(result);
