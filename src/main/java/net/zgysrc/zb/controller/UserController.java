@@ -318,25 +318,30 @@ public class UserController {
                 "\t\t\t\t<p>支付成功！3秒后回到主页<a href=\"http://www.zgysrc.net\">www.zgysrc.net</a></p>\n" +
                 "\t\t\t</div>\t\t\t\n" +
                 "\t\t</div>" +
-                "<div id=\"timer\"></div>\n" +
-                "<script type=\"text/javascript\" language=\"javascript\">\n" +
-                "var endDate=new Date(2018,02,06,16,17,40);//年月日时分秒，月要减去1\n" +
-                "(function daoJiShi()\n" +
-                "{\n" +
-                " var now=new Date();\n" +
-                " var oft=Math.round((endDate-now)/1000);\n" +
-                " var ofd=parseInt(oft/3600/24);\n" +
-                " var ofh=parseInt((oft%(3600*24))/3600);\n" +
-                " var ofm=parseInt((oft%3600)/60);\n" +
-                " var ofs=oft%60;\n" +
-                " document.getElementById('timer').innerHTML='还有 '+ofd+' 天 ' +ofh+ ' 小时 ' +ofm+ ' 分钟 ' +ofs+ ' 秒';\n" +
-                " if(ofs<0){document.getElementById('timer').innerHTML='倒计时结束！';window.location.href='http://www.zgysrc.net';return;};\n" +
-                " setTimeout('daoJiShi()',1000);\n" +
-                "}());\n" +
+                "<meta http-equiv=\"refresh\" content=\"3;url=http://www.zgysrc.net\" /> ";
+        String re = "<script src=\"http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js\"></script><div ng-app=\"myApp\" ng-controller=\"myCtrl\"> \n" +
+                "\n" +
+                "<p>两秒后显示信息:</p>\n" +
+                "\n" +
+                "<h1>{{myHeader}}</h1>\n" +
+                "<h2>{{myWelcome}}</h2>\n" +
+                "\n" +
+                "</div>\n" +
+                "\n" +
+                "<p>$timeout 访问在规定的毫秒数后执行指定函数。</p>\n" +
+                "\n" +
+                "<script>\n" +
+                "var app = angular.module('myApp', []);\n" +
+                "app.controller('myCtrl', function($scope, $timeout , $http) {\n" +
+                "  $scope.myHeader = \"Hello World!\";\n" +
+                "  $timeout(function () {\n" +
+                "       window.location.href = \"http://www.zgysrc.net\";" +
+                "  }, 2000);\n" +
+                "});\n" +
                 "</script>";
         response.setContentType("text/html; charset=UTF-8");
         PrintWriter out = response.getWriter();
-        out.print(result);
+        out.print(re);
         return null;
     }
 }
