@@ -62,7 +62,7 @@ public class JsonResult {
         exception.printStackTrace();
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("code", 500);
-        result.put("msg", "系统异常，请稍后再试！");
+        result.put("message", "系统异常，请稍后再试！");
         return result;
     }
 }

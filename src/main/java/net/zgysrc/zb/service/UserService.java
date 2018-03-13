@@ -17,4 +17,8 @@ public interface UserService {
     User getOwnerUser(User user);
 
     List<User> getAllUserPage(String userName);
+
+    User getUserByNameWithPsd(User user);
+
+    boolean getMobileCodeByMobile(String mobile);
 }

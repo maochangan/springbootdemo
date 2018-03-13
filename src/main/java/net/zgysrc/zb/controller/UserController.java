@@ -20,10 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -70,6 +69,62 @@ public class UserController {
             return JsonResult.success().add("list", list);
         }
     }
+
+    /**
+     * 用户登录
+     * @param user
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "userLoginByNameWithPsd" , method = RequestMethod.POST)
+    public JsonResult userLoginByNameWithPsd(User user , HttpSession session){
+        User loginUser = userService.getUserByNameWithPsd(user);
+        if(loginUser == null){
+            return JsonResult.fail().add("msg" , "用户名密码错误！");
+        }else {
+            session.setAttribute("user" , loginUser);
+            return JsonResult.success().add("msg" , "登入成功！");
+        }
+    }
+
+    /**
+     * 生成session test
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "testSession" , method = RequestMethod.POST)
+    public JsonResult testSession(HttpSession session){
+        String str = "session test!";
+        session.setAttribute("test" , str);
+        return JsonResult.success().add("msg" , "成功生成session！");
+    }
+
+    /**
+     * 获取session test
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "getTestSession" , method = RequestMethod.GET)
+    public JsonResult getTestSession(HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (null == user) {
+            return JsonResult.fail().add("msg" , "获取失败！");
+        }else{
+            return JsonResult.success().add("msg" , "获取成功！").add("user" , user);
+        }
+    }
+
+    /**
+     * 用户登出
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "userLogout" , method = RequestMethod.GET)
+    public JsonResult userLogout(HttpSession session){
+        session.removeAttribute("user");
+        return JsonResult.success().add("msg","退出成功！");
+    }
+
 
     /**
      * 检查用户名是否存在
@@ -150,6 +205,21 @@ public class UserController {
     }
 
     /**
+     * 获取验证码手机
+     * @param mobile
+     * @return
+     */
+    @RequestMapping(value = "getMobileCodeByMobile" , method = RequestMethod.GET)
+    public JsonResult getMobileCodeByMobile(String mobile){
+        boolean state = userService.getMobileCodeByMobile(mobile);
+        if(state){
+            return JsonResult.success().add("msg", "发送成功！你的验证码为000000");
+        }else{
+            return JsonResult.fail().add("msg" , "发送失败！");
+        }
+    }
+
+    /**
      * 获取登录验4位证码，非手机验证码
      *
      * @param session
@@ -192,20 +262,17 @@ public class UserController {
      */
     @RequestMapping(value = "uploadFileTest", method = RequestMethod.POST)
     public JsonResult uploadFileTest(MultipartFile file, HttpServletRequest request) throws Exception {
-        System.out.println(file.getOriginalFilename() + "this!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         String pathL = "D://file/pic/pic/";
         File dirL = new File(pathL);
         if (!dirL.exists()) {
             dirL.mkdirs();
         }
         String path = pathL + file.getOriginalFilename();
-        System.out.println(path);
         File dir = new File(path);
         file.transferTo(dir);
         String dataPath = "http://" + "localhost" + ":" + request.getLocalPort()
                 + request.getServletContext().getContextPath() + "/pic/pic/"
                 + file.getOriginalFilename();
-        System.out.println(dataPath);
         return JsonResult.success().add("path", dataPath);
     }
 
@@ -344,4 +411,30 @@ public class UserController {
         out.print(re);
         return null;
     }
+
+    /**
+     * 获取登录地址
+     *
+     * @return
+     */
+    @RequestMapping(value = "getUserLoginAddress", method = RequestMethod.GET)
+    public JsonResult getUserLoginAddress(HttpServletRequest request) {
+        try {
+            String strIP = "118.31.14.204";
+            URL url = new URL("http://www.ip138.com/ips138.asp?ip=" + strIP);
+            URLConnection conn = url.openConnection();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "GBK"));
+            String line = null;
+            StringBuffer result = new StringBuffer();
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+            reader.close();
+            String city = (result.substring(result.indexOf("省") + 1, result.indexOf("市")));
+            return JsonResult.success().add("address", city);
+        } catch (IOException e) {
+            return JsonResult.fail().add("address", "获取失败！");
+        }
+    }
+
 }

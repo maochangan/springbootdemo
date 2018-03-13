@@ -39,14 +39,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkMobileNum(String mobileNum) {
-        return false;
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andMobileEqualTo(mobileNum);
+        List<User> list = userMapper.selectByExample(example);
+        if(list.size() == 0){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     @Override
     public boolean userRegister(User user) {
         if (checkUserName(user.getUserName())) {
             int state = userMapper.insert(user);
-            return state == 0;
+            return state != 0;
         } else {
             return false;
         }
@@ -87,5 +95,25 @@ public class UserServiceImpl implements UserService {
                 return list;
             }
         }
+    }
+
+    @Override
+    public User getUserByNameWithPsd(User user) {
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserNameEqualTo(user.getUserName());
+        criteria.andPasswordEqualTo(user.getPassword());
+        List<User> list = userMapper.selectByExample(example);
+        if(list.size() == 1){
+            return list.get(0);
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public boolean getMobileCodeByMobile(String mobile) {
+
+        return true;
     }
 }
