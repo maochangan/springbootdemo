@@ -37,6 +37,7 @@
 
         <table tableName="user_t" domainObjectName="User"></table>
         <table tableName="db_demo_admin" domainObjectName="Admin"></table>
+        <table tableName="db_goods_info" domainObjectName="GoodsInfo"></table>
 
     </context>
 </generatorConfiguration>
