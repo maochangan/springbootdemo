@@ -59,5 +59,15 @@ public class GoodsController {
         }
     }
 
+    @RequestMapping(value = "getGoodsInfoById" , method = RequestMethod.GET)
+    public JsonResult getGoodsInfoById(Integer id){
+        GoodsInfo goodsInfo = goodsService.getGoodsInfoById(id);
+        if(null == goodsInfo){
+            return JsonResult.fail().add("msg" , "无信息！");
+        }else{
+            return JsonResult.success().add("goodsInfo", goodsInfo);
+        }
+    }
+
 
 }

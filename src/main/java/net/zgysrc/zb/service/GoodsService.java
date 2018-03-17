@@ -8,4 +8,6 @@ public interface GoodsService {
     List<GoodsInfo> getIndexGoods(String keyWord);
 
     List<GoodsInfo> getAllGoodsByCondition(String keyWord);
+
+    GoodsInfo getGoodsInfoById(Integer id);
 }

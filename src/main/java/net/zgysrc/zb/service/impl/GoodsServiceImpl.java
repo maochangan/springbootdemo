@@ -37,13 +37,22 @@ public class GoodsServiceImpl implements GoodsService{
     public List<GoodsInfo> getAllGoodsByCondition(String keyWord) {
         GoodsInfoExample example = new GoodsInfoExample();
         example.setOrderByClause("id desc");
-        example.or().andGoodsNameLike(JDBCLikeStringUtil.JDBCLikeUtil(keyWord));
-        example.or().andGoodsTypeLike(JDBCLikeStringUtil.JDBCLikeUtil(keyWord));
+        GoodsInfoExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsNameLike(JDBCLikeStringUtil.JDBCLikeUtil(keyWord));
+        GoodsInfoExample.Criteria criteria2 = example.createCriteria();
+        criteria2.andGoodsTypeLike(JDBCLikeStringUtil.JDBCLikeUtil(keyWord));
+        example.or(criteria2);
         List<GoodsInfo> list = goodsInfoMapper.selectByExample(example);
         if(0 == list.size()){
             return null;
         }else{
             return list;
         }
+    }
+
+    @Override
+    public GoodsInfo getGoodsInfoById(Integer id) {
+        GoodsInfo goodsInfo = goodsInfoMapper.selectByPrimaryKey(id);
+        return goodsInfo;
     }
 }
