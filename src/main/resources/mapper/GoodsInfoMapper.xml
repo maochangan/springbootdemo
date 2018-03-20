@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.zgysrc.zb.dao.GoodsInfoMapper">
+  <resultMap id="BaseResultMap" type="net.zgysrc.zb.bean.GoodsInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_price" jdbcType="VARCHAR" property="goodsPrice" />
+    <result column="goods_old_price" jdbcType="VARCHAR" property="goodsOldPrice" />
+    <result column="goods_seller" jdbcType="VARCHAR" property="goodsSeller" />
+    <result column="goods_seller_id" jdbcType="VARCHAR" property="goodsSellerId" />
+    <result column="goods_index_img_path" jdbcType="VARCHAR" property="goodsIndexImgPath" />
+    <result column="goods_size" jdbcType="VARCHAR" property="goodsSize" />
+    <result column="goods_sell_num" jdbcType="VARCHAR" property="goodsSellNum" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="goods_type_id" jdbcType="INTEGER" property="goodsTypeId" />
+    <result column="goods_comment_id" jdbcType="INTEGER" property="goodsCommentId" />
+    <result column="goods_click_num" jdbcType="INTEGER" property="goodsClickNum" />
+    <result column="goods_collect_num" jdbcType="INTEGER" property="goodsCollectNum" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="net.zgysrc.zb.bean.GoodsInfo">
+    <result column="goods_detail_img_path" jdbcType="LONGVARCHAR" property="goodsDetailImgPath" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, goods_name, goods_price, goods_old_price, goods_seller, goods_seller_id, goods_index_img_path, 
+    goods_size, goods_sell_num, goods_type, goods_type_id, goods_comment_id, goods_click_num, 
+    goods_collect_num
+  </sql>
+  <sql id="Blob_Column_List">
+    goods_detail_img_path
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="net.zgysrc.zb.bean.GoodsInfoExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from db_goods_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="net.zgysrc.zb.bean.GoodsInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from db_goods_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from db_goods_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from db_goods_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.zgysrc.zb.bean.GoodsInfoExample">
+    delete from db_goods_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.zgysrc.zb.bean.GoodsInfo">
+    insert into db_goods_info (id, goods_name, goods_price, 
+      goods_old_price, goods_seller, goods_seller_id, 
+      goods_index_img_path, goods_size, goods_sell_num, 
+      goods_type, goods_type_id, goods_comment_id, 
+      goods_click_num, goods_collect_num, goods_detail_img_path
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsPrice,jdbcType=VARCHAR}, 
+      #{goodsOldPrice,jdbcType=VARCHAR}, #{goodsSeller,jdbcType=VARCHAR}, #{goodsSellerId,jdbcType=VARCHAR}, 
+      #{goodsIndexImgPath,jdbcType=VARCHAR}, #{goodsSize,jdbcType=VARCHAR}, #{goodsSellNum,jdbcType=VARCHAR}, 
+      #{goodsType,jdbcType=VARCHAR}, #{goodsTypeId,jdbcType=INTEGER}, #{goodsCommentId,jdbcType=INTEGER}, 
+      #{goodsClickNum,jdbcType=INTEGER}, #{goodsCollectNum,jdbcType=INTEGER}, #{goodsDetailImgPath,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.zgysrc.zb.bean.GoodsInfo">
+    insert into db_goods_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="goodsPrice != null">
+        goods_price,
+      </if>
+      <if test="goodsOldPrice != null">
+        goods_old_price,
+      </if>
+      <if test="goodsSeller != null">
+        goods_seller,
+      </if>
+      <if test="goodsSellerId != null">
+        goods_seller_id,
+      </if>
+      <if test="goodsIndexImgPath != null">
+        goods_index_img_path,
+      </if>
+      <if test="goodsSize != null">
+        goods_size,
+      </if>
+      <if test="goodsSellNum != null">
+        goods_sell_num,
+      </if>
+      <if test="goodsType != null">
+        goods_type,
+      </if>
+      <if test="goodsTypeId != null">
+        goods_type_id,
+      </if>
+      <if test="goodsCommentId != null">
+        goods_comment_id,
+      </if>
+      <if test="goodsClickNum != null">
+        goods_click_num,
+      </if>
+      <if test="goodsCollectNum != null">
+        goods_collect_num,
+      </if>
+      <if test="goodsDetailImgPath != null">
+        goods_detail_img_path,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        #{goodsPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsOldPrice != null">
+        #{goodsOldPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSeller != null">
+        #{goodsSeller,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSellerId != null">
+        #{goodsSellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsIndexImgPath != null">
+        #{goodsIndexImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSize != null">
+        #{goodsSize,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSellNum != null">
+        #{goodsSellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeId != null">
+        #{goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCommentId != null">
+        #{goodsCommentId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsClickNum != null">
+        #{goodsClickNum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCollectNum != null">
+        #{goodsCollectNum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDetailImgPath != null">
+        #{goodsDetailImgPath,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.zgysrc.zb.bean.GoodsInfoExample" resultType="java.lang.Long">
+    select count(*) from db_goods_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update db_goods_info
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsName != null">
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsPrice != null">
+        goods_price = #{record.goodsPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsOldPrice != null">
+        goods_old_price = #{record.goodsOldPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsSeller != null">
+        goods_seller = #{record.goodsSeller,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsSellerId != null">
+        goods_seller_id = #{record.goodsSellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsIndexImgPath != null">
+        goods_index_img_path = #{record.goodsIndexImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsSize != null">
+        goods_size = #{record.goodsSize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsSellNum != null">
+        goods_sell_num = #{record.goodsSellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsType != null">
+        goods_type = #{record.goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsTypeId != null">
+        goods_type_id = #{record.goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsCommentId != null">
+        goods_comment_id = #{record.goodsCommentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsClickNum != null">
+        goods_click_num = #{record.goodsClickNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsCollectNum != null">
+        goods_collect_num = #{record.goodsCollectNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsDetailImgPath != null">
+        goods_detail_img_path = #{record.goodsDetailImgPath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update db_goods_info
+    set id = #{record.id,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_price = #{record.goodsPrice,jdbcType=VARCHAR},
+      goods_old_price = #{record.goodsOldPrice,jdbcType=VARCHAR},
+      goods_seller = #{record.goodsSeller,jdbcType=VARCHAR},
+      goods_seller_id = #{record.goodsSellerId,jdbcType=VARCHAR},
+      goods_index_img_path = #{record.goodsIndexImgPath,jdbcType=VARCHAR},
+      goods_size = #{record.goodsSize,jdbcType=VARCHAR},
+      goods_sell_num = #{record.goodsSellNum,jdbcType=VARCHAR},
+      goods_type = #{record.goodsType,jdbcType=VARCHAR},
+      goods_type_id = #{record.goodsTypeId,jdbcType=INTEGER},
+      goods_comment_id = #{record.goodsCommentId,jdbcType=INTEGER},
+      goods_click_num = #{record.goodsClickNum,jdbcType=INTEGER},
+      goods_collect_num = #{record.goodsCollectNum,jdbcType=INTEGER},
+      goods_detail_img_path = #{record.goodsDetailImgPath,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update db_goods_info
+    set id = #{record.id,jdbcType=INTEGER},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      goods_price = #{record.goodsPrice,jdbcType=VARCHAR},
+      goods_old_price = #{record.goodsOldPrice,jdbcType=VARCHAR},
+      goods_seller = #{record.goodsSeller,jdbcType=VARCHAR},
+      goods_seller_id = #{record.goodsSellerId,jdbcType=VARCHAR},
+      goods_index_img_path = #{record.goodsIndexImgPath,jdbcType=VARCHAR},
+      goods_size = #{record.goodsSize,jdbcType=VARCHAR},
+      goods_sell_num = #{record.goodsSellNum,jdbcType=VARCHAR},
+      goods_type = #{record.goodsType,jdbcType=VARCHAR},
+      goods_type_id = #{record.goodsTypeId,jdbcType=INTEGER},
+      goods_comment_id = #{record.goodsCommentId,jdbcType=INTEGER},
+      goods_click_num = #{record.goodsClickNum,jdbcType=INTEGER},
+      goods_collect_num = #{record.goodsCollectNum,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.zgysrc.zb.bean.GoodsInfo">
+    update db_goods_info
+    <set>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsPrice != null">
+        goods_price = #{goodsPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsOldPrice != null">
+        goods_old_price = #{goodsOldPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSeller != null">
+        goods_seller = #{goodsSeller,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSellerId != null">
+        goods_seller_id = #{goodsSellerId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsIndexImgPath != null">
+        goods_index_img_path = #{goodsIndexImgPath,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSize != null">
+        goods_size = #{goodsSize,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSellNum != null">
+        goods_sell_num = #{goodsSellNum,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsTypeId != null">
+        goods_type_id = #{goodsTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCommentId != null">
+        goods_comment_id = #{goodsCommentId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsClickNum != null">
+        goods_click_num = #{goodsClickNum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsCollectNum != null">
+        goods_collect_num = #{goodsCollectNum,jdbcType=INTEGER},
+      </if>
+      <if test="goodsDetailImgPath != null">
+        goods_detail_img_path = #{goodsDetailImgPath,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="net.zgysrc.zb.bean.GoodsInfo">
+    update db_goods_info
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=VARCHAR},
+      goods_old_price = #{goodsOldPrice,jdbcType=VARCHAR},
+      goods_seller = #{goodsSeller,jdbcType=VARCHAR},
+      goods_seller_id = #{goodsSellerId,jdbcType=VARCHAR},
+      goods_index_img_path = #{goodsIndexImgPath,jdbcType=VARCHAR},
+      goods_size = #{goodsSize,jdbcType=VARCHAR},
+      goods_sell_num = #{goodsSellNum,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_type_id = #{goodsTypeId,jdbcType=INTEGER},
+      goods_comment_id = #{goodsCommentId,jdbcType=INTEGER},
+      goods_click_num = #{goodsClickNum,jdbcType=INTEGER},
+      goods_collect_num = #{goodsCollectNum,jdbcType=INTEGER},
+      goods_detail_img_path = #{goodsDetailImgPath,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.zgysrc.zb.bean.GoodsInfo">
+    update db_goods_info
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_price = #{goodsPrice,jdbcType=VARCHAR},
+      goods_old_price = #{goodsOldPrice,jdbcType=VARCHAR},
+      goods_seller = #{goodsSeller,jdbcType=VARCHAR},
+      goods_seller_id = #{goodsSellerId,jdbcType=VARCHAR},
+      goods_index_img_path = #{goodsIndexImgPath,jdbcType=VARCHAR},
+      goods_size = #{goodsSize,jdbcType=VARCHAR},
+      goods_sell_num = #{goodsSellNum,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_type_id = #{goodsTypeId,jdbcType=INTEGER},
+      goods_comment_id = #{goodsCommentId,jdbcType=INTEGER},
+      goods_click_num = #{goodsClickNum,jdbcType=INTEGER},
+      goods_collect_num = #{goodsCollectNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
