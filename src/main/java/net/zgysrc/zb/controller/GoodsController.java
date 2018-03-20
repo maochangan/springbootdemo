@@ -23,6 +23,12 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
+    /**
+     * 首页商品信息
+     * @param pn
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "getIndexGoods" , method = RequestMethod.GET)
     public JsonResult getIndexGoods(Integer pn , HttpSession session){
         User user = (User) session.getAttribute("user");
@@ -47,6 +53,12 @@ public class GoodsController {
         }
     }
 
+    /**
+     * 商品条件搜索
+     * @param keyWord
+     * @param pSize
+     * @return
+     */
     @RequestMapping(value = "getAllGoodsByCondition" , method = RequestMethod.GET)
     public JsonResult getAllGoodsByCondition(String keyWord ,Integer pSize){
         PageHelper.startPage(1 , pSize);
@@ -59,6 +71,11 @@ public class GoodsController {
         }
     }
 
+    /**
+     * 返回商品信息
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "getGoodsInfoById" , method = RequestMethod.GET)
     public JsonResult getGoodsInfoById(Integer id){
         GoodsInfo goodsInfo = goodsService.getGoodsInfoById(id);
