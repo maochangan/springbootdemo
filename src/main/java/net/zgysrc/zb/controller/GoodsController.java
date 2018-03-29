@@ -31,6 +31,7 @@ public class GoodsController {
      */
     @RequestMapping(value = "getIndexGoods" , method = RequestMethod.GET)
     public JsonResult getIndexGoods(Integer pn , HttpSession session){
+        System.out.println(pn);
         User user = (User) session.getAttribute("user");
         PageHelper.startPage(pn , 16);
         if(null == user){

@@ -7,6 +7,11 @@ server:
   context-path: /zb
   session:
     timeout: 15
+#  ssl:
+#    key-store: tomcat.keystore.p12
+#    key-password: 123456
+#    key-store-type: JKS
+#    key-alias: tomcat
 
 spring:
   datasource:
